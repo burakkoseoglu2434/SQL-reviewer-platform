@@ -34,6 +34,7 @@
 - [ ] **EXEC-03**: Execution validator computes execution_accuracy (SQL runs without error)
 - [ ] **EXEC-04**: Execution validator computes non_empty_execution_accuracy: both candidate and gold return data AND their result fingerprints match — this is the primary benchmark metric
 - [ ] **EXEC-05**: Execution validator computes subset_non_empty_execution_accuracy: candidate result is a valid subset of gold result
+- [ ] **EXEC-06**: Execution validator computes exact_match_accuracy (EM): token-level exact SQL string match after normalization — tracked as a supplementary upper-bound reference metric, not used in composite score
 
 ### AST / Semantic Validator Layer
 
@@ -87,6 +88,16 @@
 - [ ] **REPORT-03**: Batch report includes: pass_rate, non_empty_execution_accuracy, valid_sql_rate, hallucination_rate, avg_latency_ms, total_token_cost, regression_count
 - [ ] **REPORT-04**: Batch report breaks down all metrics by bucket (positive/negative/borderline/adversarial)
 - [ ] **REPORT-05**: All batch results are exportable to a JSON file for further analysis
+- [ ] **REPORT-06**: Batch report includes critical_error_recall: fraction of known-critical cases (negative/adversarial bucket) that were correctly flagged with a reject or human_review decision
+- [ ] **REPORT-07**: Batch report includes domain metric accuracy breakdown: pass rate per metric category (e.g. STR, cover, GMROI, date-range, cross-table join) as tagged in golden case business_context
+- [ ] **REPORT-08**: Batch report includes judge_reliability summary: false_positive_rate, false_negative_rate, judge–GT agreement rate, consistency_score
+
+### Judge Reliability
+
+- [ ] **JREL-01**: System tracks judge–ground-truth agreement rate: how often does the judge decision match human-assigned labels in the golden dataset?
+- [ ] **JREL-02**: System computes false_positive_rate: fraction of cases where wrong SQL received approve or rewrite decision instead of reject
+- [ ] **JREL-03**: System computes false_negative_rate: fraction of cases where correct SQL received human_review or reject instead of approve
+- [ ] **JREL-04**: System runs consistency check on a sample of cases (same case evaluated twice with shuffled prompt context) and reports a consistency_score (Cohen's κ target ≥ 0.80)
 
 ### Hallucination Tracking
 
@@ -152,14 +163,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QUAL-01 through QUAL-03 | Phase 2 | Pending |
 | SCORE-01 through SCORE-05 | Phase 2 | Pending |
 | BATCH-01 through BATCH-04 | Phase 3 | Pending |
-| REPORT-01 through REPORT-05 | Phase 3 | Pending |
+| REPORT-01 through REPORT-08 | Phase 3 | Pending |
 | HALL-01 through HALL-04 | Phase 3 | Pending |
+| JREL-01 through JREL-04 | Phase 3 | Pending |
 | OBS-01 through OBS-03 | Phase 4 | Pending |
 | STORE-01 through STORE-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 53 total
-- Mapped to phases: 53
+- v1 requirements: 61 total (added EXEC-06, JREL-01–04, REPORT-06–08)
+- Mapped to phases: 61
 - Unmapped: 0 ✓
 
 ---
