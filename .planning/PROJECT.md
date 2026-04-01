@@ -1,56 +1,77 @@
-# SQL Agent Değerlendirme Platformu
+# SQL Evaluation & LLM-as-a-Judge Platform
 
 ## What This Is
-Golden dataset, business rules ve sandbox query execution kullanarak LLM'in ürettiği SQL ve cevapları çok katmanlı biçimde değerlendiren; rule-based kontroller, execution equivalence ve LLM-as-a-judge skorlarıyla eksikleri tespit edip approve / rewrite / human_review kararları üreten bir SQL evaluation ve quality assurance platformu.
 
-## The Problem
-Mevcut SQL analizi/üretimi yapan agent'in ürettiği sonuçların doğruluğunun otomatik olarak ve ölçeklenebilir bir biçimde ölçülememesi. Sadece bir LLM string kıyası yeterli olmadığı için farklı hata tiplerini (yanlış tablo kullanımı, date filter eksikliği, vb.) yakalayacak ve insan incelemesi (human-in-the-loop) sistemini de içeren kapsamlı bir eval altyapısına ihtiyaç var.
+A Python CLI evaluation platform that takes JSON/CSV output from a SQL-generating agent and runs it through a four-layer judge pipeline (rule engine → execution validator → AST/semantic validator → LLM judge) against a curated golden dataset. It produces per-case composite scores with approve/rewrite/human_review/reject decisions, prints batch evaluation reports to the terminal, and tracks regression, hallucination, and observability metrics over time. Storage starts with CSV/JSON files and migrates to PostgreSQL for production.
 
 ## Core Value
-Agent'in hatalarını production'da değil, test/değerlendirme aşamasında yakalayarak, SQL agent güvenirliğini test edilebilir, kalibre edilebilir, metriklerle takip edilebilir ve otomatik olarak izlenebilir hale getirmek.
+
+Catch SQL agent errors in evaluation — not in production — by making quality measurable, traceable, and automatically regressionable against a live golden dataset.
 
 ## Requirements
 
 ### Validated
+
 (None yet — ship to validate)
 
 ### Active
-- [ ] 3 Girdi mekanizmasının entegrasyonu (Candidate SQL, Gold SQL, Business Rules)
-- [ ] Rule Engine Katmanı (deterministik, regex ve parsing bazlı kurallar)
-- [ ] Execution Validator Katmanı (sorguları çalıştırma, satır sayısı/şema/sonuçları karşılaştırma)
-- [ ] LLM Judge Katmanı (kullanıcı niyetine ve açıklamalara uygunluk)
-- [ ] Composite Scoring Logic (%30 rule, %25 exec, %25 semantic, %10 answer grounding, %10 format)
-- [ ] Karar mekanizması (Approve, Rewrite, Human Review, Reject)
-- [ ] Yapılandırılmış Çıktı Üretimi (Karar, skor, error tipi, yönlendirmeler, evidence JSON scheması)
-- [ ] Veritabanı Depolama Modeli (Golden Cases, Judge Runs, Scores, Issues, Human Reviews tabloları)
-- [ ] Reporting Dashboard Data Export (pass rate, critical recall vb. metriklerin çıkartılması)
+
+- [ ] Golden dataset ingestion from CSV (968-row `golden_eval_dataset_202603311349.csv`)
+- [ ] Golden case schema: question, gold_sql, gold_answer, execution_metadata, business_context, bucket
+- [ ] Agent output ingestion from JSON/CSV files (candidate_sql, answer, result)
+- [ ] Rule Engine layer: structural checks, business rules, risk patterns (LIMIT, CURRENT_DATE, JOIN multiply, NULL)
+- [ ] Execution Validator layer: execute candidate SQL against CSV-based sandbox; execution_accuracy, non_empty_execution_accuracy, subset_non_empty_execution_accuracy, routing_accuracy
+- [ ] AST/Semantic Validator layer: parse SQL to AST, normalize, compare to gold SQL for semantic equivalence
+- [ ] Result Set Comparator: row count, column count, column name (case-insensitive), numeric tolerance atol=1e-5, order independence
+- [ ] LLM Judge layer: intent_fidelity, business_correctness, answer_grounding, holistic decision + rewrite guidance
+- [ ] Judge Output Quality scorer: specificity, completeness, rationale_density, actionability
+- [ ] Composite scoring: intent_fidelity 25%, execution 20%, semantic 15%, business_correctness 15%, result_equivalence 10%, answer_grounding 10%, risk 5%
+- [ ] Critical override rules: execution error / unparseable SQL / critical hallucination → force reject
+- [ ] Decision thresholds: ≥0.85 approve, 0.65–0.84 rewrite, 0.40–0.64 human_review, <0.40 reject
+- [ ] Batch runner: replay all golden cases, produce per-case results
+- [ ] CLI report: pass_rate, non_empty_execution_accuracy, valid_sql_rate, hallucination_rate, regression list, avg_latency, token_usage
+- [ ] Hallucination tracking: answer hallucination + judge hallucination detection
+- [ ] Observability metadata per run: model_name, latency_ms, input/output tokens, prompt_version, execution_time_ms, sql_ast_hash
+- [ ] Structured output per case: decision, overall_score, per-dimension scores, issues list (type/severity/evidence), rewrite guidance
+- [ ] PostgreSQL storage layer (agent_replay_runs, judge_scores, judge_issues, hallucination_events, monthly_reports)
 
 ### Out of Scope
-- [Tamamen Agent'i kendi kendine yeniden eğiten offline fine-tuning loop] — Şimdilik sadece eval tarafı (evaluation pipeline) geliştiriliyor.
+
+- Real-time online evaluation / shadow mode — planned for Phase 5, not v1
+- Web dashboard / UI — CLI output only for v1
+- Offline fine-tuning / model retraining — evaluation pipeline only, not training loop
+- Multi-tenant access control — single internal team
+- OAuth / authentication — internal tool
+
+## Context
+
+- **Golden dataset**: `golden_eval_dataset_202603311349.csv` (968 rows) already exists in workspace; needs schema enrichment (execution_metadata, business_context, bucket classification) as part of Phase 0
+- **Existing SQL agent**: Python-based, full access to modify; outputs JSON/CSV files with candidate_sql, answer, and result fields
+- **Users**: ML/AI engineers (internal team); no non-technical stakeholders for v1
+- **Execution environment**: CSV/file-based sandbox for testing phases; PostgreSQL integration in production phase
+- **Language**: Python throughout
+- **Scoring primary metric**: `non_empty_execution_accuracy` (IBM/unitxt approach — both gold and candidate return data and results match)
+- **Guiding principle**: "Fidelity to User Request is Paramount" — intent_fidelity carries highest weight (25%)
+
+## Constraints
+
+- **Tech stack**: Python — no web framework required for v1, CLI only
+- **Storage (testing)**: CSV / JSON files — no DB required until Phase 5
+- **Storage (production)**: PostgreSQL — migration path is planned, not blocking v1
+- **Timeline**: Flexible — quality over speed
+- **LLM access**: Required for LLM judge layer; prompt_version must be tracked for reproducibility
+- **Reproducibility**: All runs must log model_name + prompt_version to enable regression attribution
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Judge ve Eval sistemlerini ayırmak | Ayrı katmanlar olmalı (Judge SQL'i değerlendirir, Eval Judge'ı değerlendirir) | — Pending |
-| 3 Katmanlı Judge | Sadece LLM evaluator yetersiz, string match, schema ve business code execution için ayrı kontroller şart | — Pending |
+| 4-layer judge pipeline (rule → execution → AST → LLM) | LLM alone is insufficient; deterministic layers catch systematic errors cheaply | — Pending |
+| non_empty_execution_accuracy as primary metric | Both queries must return data AND match — empty-result false positives are a known trap | — Pending |
+| intent_fidelity at 25% weight | Fidelity to user request is paramount per EvaluateGPT principle | — Pending |
+| CSV/JSON first, PostgreSQL later | Reduces setup friction; validation logic is identical regardless of storage | — Pending |
+| Judge output quality as separate scoring dimension | Prevents judge hallucination from corrupting eval pipeline silently | — Pending |
+| Critical override rules (force reject on parse/exec failure) | Overall score can be misleading when SQL is fundamentally broken | — Pending |
 
 ---
-*Last updated: 2026-03-31 after initialization*
-
-## Evolution
-
-This document evolves at phase transitions and milestone boundaries.
-
-**After each phase transition** (via `/gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `/gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
+*Last updated: 2026-04-01 after initialization*
