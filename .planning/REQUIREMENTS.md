@@ -153,25 +153,83 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GOLDEN-01 through GOLDEN-05 | Phase 0 | Pending |
-| PIPE-01 through PIPE-04 | Phase 1 | Pending |
-| RULE-01 through RULE-04 | Phase 1 | Pending |
-| EXEC-01 through EXEC-05 | Phase 1 | Pending |
-| AST-01 through AST-04 | Phase 1 | Pending |
-| RESULT-01 through RESULT-05 | Phase 1 | Pending |
-| JUDGE-01 through JUDGE-06 | Phase 2 | Pending |
-| QUAL-01 through QUAL-03 | Phase 2 | Pending |
-| SCORE-01 through SCORE-05 | Phase 2 | Pending |
-| BATCH-01 through BATCH-04 | Phase 3 | Pending |
-| REPORT-01 through REPORT-08 | Phase 3 | Pending |
-| HALL-01 through HALL-04 | Phase 3 | Pending |
-| JREL-01 through JREL-04 | Phase 3 | Pending |
-| OBS-01 through OBS-03 | Phase 4 | Pending |
-| STORE-01 through STORE-03 | Phase 4 | Pending |
+| GOLDEN-01 | Phase 0 | Pending |
+| GOLDEN-02 | Phase 0 | Pending |
+| GOLDEN-03 | Phase 0 | Pending |
+| GOLDEN-04 | Phase 0 | Pending |
+| GOLDEN-05 | Phase 0 | Pending |
+| PIPE-01 | Phase 1 | Pending |
+| PIPE-02 | Phase 1 | Pending |
+| PIPE-03 | Phase 1 | Pending |
+| PIPE-04 | Phase 1 | Pending |
+| RULE-01 | Phase 1 | Pending |
+| RULE-02 | Phase 1 | Pending |
+| RULE-03 | Phase 1 | Pending |
+| RULE-04 | Phase 1 | Pending |
+| EXEC-01 | Phase 1 | Pending |
+| EXEC-02 | Phase 1 | Pending |
+| EXEC-03 | Phase 1 | Pending |
+| EXEC-04 | Phase 1 | Pending |
+| EXEC-05 | Phase 1 | Pending |
+| EXEC-06 | Phase 1 | Pending |
+| AST-01 | Phase 1 | Pending |
+| AST-02 | Phase 1 | Pending |
+| AST-03 | Phase 1 | Pending |
+| AST-04 | Phase 1 | Pending |
+| RESULT-01 | Phase 1 | Pending |
+| RESULT-02 | Phase 1 | Pending |
+| RESULT-03 | Phase 1 | Pending |
+| RESULT-04 | Phase 1 | Pending |
+| RESULT-05 | Phase 1 | Pending |
+| JUDGE-01 | Phase 2 | Pending |
+| JUDGE-02 | Phase 2 | Pending |
+| JUDGE-03 | Phase 2 | Pending |
+| JUDGE-04 | Phase 2 | Pending |
+| JUDGE-05 | Phase 2 | Pending |
+| JUDGE-06 | Phase 2 | Pending |
+| QUAL-01 | Phase 2 | Pending |
+| QUAL-02 | Phase 2 | Pending |
+| QUAL-03 | Phase 2 | Pending |
+| SCORE-01 | Phase 2 | Pending |
+| SCORE-02 | Phase 2 | Pending |
+| SCORE-03 | Phase 2 | Pending |
+| SCORE-04 | Phase 2 | Pending |
+| SCORE-05 | Phase 2 | Pending |
+| BATCH-01 | Phase 3 | Pending |
+| BATCH-02 | Phase 3 | Pending |
+| BATCH-03 | Phase 3 | Pending |
+| BATCH-04 | Phase 3 | Pending |
+| REPORT-01 | Phase 3 | Pending |
+| REPORT-02 | Phase 3 | Pending |
+| REPORT-03 | Phase 3 | Pending |
+| REPORT-04 | Phase 3 | Pending |
+| REPORT-05 | Phase 3 | Pending |
+| REPORT-06 | Phase 3 | Pending |
+| REPORT-07 | Phase 3 | Pending |
+| REPORT-08 | Phase 3 | Pending |
+| HALL-01 | Phase 3 | Pending |
+| HALL-02 | Phase 3 | Pending |
+| HALL-03 | Phase 3 | Pending |
+| HALL-04 | Phase 3 | Pending |
+| JREL-01 | Phase 3 | Pending |
+| JREL-02 | Phase 3 | Pending |
+| JREL-03 | Phase 3 | Pending |
+| JREL-04 | Phase 3 | Pending |
+| OBS-01 | Phase 4 | Pending |
+| OBS-02 | Phase 4 | Pending |
+| OBS-03 | Phase 4 | Pending |
+| STORE-01 | Phase 4 | Pending |
+| STORE-02 | Phase 4 | Pending |
+| STORE-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 61 total (added EXEC-06, JREL-01–04, REPORT-06–08)
-- Mapped to phases: 61
+- v1 requirements: 68 total
+- Phase 0: 5 (GOLDEN-01–05)
+- Phase 1: 23 (PIPE-01–04, RULE-01–04, EXEC-01–06, AST-01–04, RESULT-01–05)
+- Phase 2: 14 (JUDGE-01–06, QUAL-01–03, SCORE-01–05)
+- Phase 3: 20 (BATCH-01–04, REPORT-01–08, HALL-01–04, JREL-01–04)
+- Phase 4: 6 (OBS-01–03, STORE-01–03)
+- Mapped to phases: 68
 - Unmapped: 0 ✓
 
 ---
