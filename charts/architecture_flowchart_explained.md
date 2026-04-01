@@ -68,4 +68,3 @@ Uygulamanın çalışıp işe yaradıktan sonra şirket standartına kazandırı
 1. **Observability Metadata:** Tüm metrikler, bağlantıların milisaniyelik gecikmeleri gibi sistem telemetreleri paket haline getirilir.
 2. **ResultStore Protocol:** OOP esnekliği devreye girer. Depolama altyapısı "JSON olarak File Storage"ye (yerel disk depolama) mi?, yoksa asıl büyük kurumsal veritabanı yığını olan "PostgreSQL" sunucularına mı kaydedileceğini bir protokolle denetler ve istenilene tüm rapor içeriğini SQL insert verisi olarak kaydeder. 
 
-*Ve böylece kocaman mimari tünel görevini başarıyla tamamlamış olur!*
