@@ -1,0 +1,214 @@
+<mxfile version="22.1.2">
+  <diagram id="llm_judge" name="LLM Judge">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1800" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Input -->
+        <mxCell id="n1" value="EvalContext (from Phase 1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2e8f0;strokeColor=#a0aec0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="LLM Judge Evaluation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="400" y="140" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" parent="1" edge="1" source="n1" target="n2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Subgraph S1 -->
+        <mxCell id="g1" value="1. Hangi 3 Konuyu Puanlıyor?" style="swimlane;startSize=30;fillColor=#2b6cb0;fontColor=#ffffff;strokeColor=#3182ce;" vertex="1" parent="1">
+          <mxGeometry x="180" y="240" width="600" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="A. Intent Fidelity&#10;(Niyet Sadakati)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g1">
+          <mxGeometry x="20" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="B. Business Correctness&#10;(İş Mantığı)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g1">
+          <mxGeometry x="220" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="C. Answer Grounding&#10;(Cevap Kökü)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g1">
+          <mxGeometry x="420" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edge from LLM_Eval to S1 elements -->
+        <mxCell id="e2a" parent="1" edge="1" source="n2" target="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="480" y="220" />
+                    <mxPoint x="280" y="220" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e2b" parent="1" edge="1" source="n2" target="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2c" parent="1" edge="1" source="n2" target="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="480" y="220" />
+                    <mxPoint x="680" y="220" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+
+        <!-- JSON Output -->
+        <mxCell id="n6" value="Kapsamlı JSON Nesnesi" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e2e8f0;strokeColor=#a0aec0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="400" y="440" width="160" height="80" as="geometry" />
+        </mxCell>
+        <!-- Edges from S1 to JSON -->
+        <mxCell id="e3a" parent="1" edge="1" source="n3" target="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="280" y="400" />
+                    <mxPoint x="480" y="400" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e3b" parent="1" edge="1" source="n4" target="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3c" parent="1" edge="1" source="n5" target="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="680" y="400" />
+                    <mxPoint x="480" y="400" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+
+        <!-- Subgraph S2 -->
+        <mxCell id="g2" value="2. Hakem Çıktısı JSON" style="swimlane;startSize=30;fillColor=#c05621;fontColor=#ffffff;strokeColor=#dd6b20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="560" width="800" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="Puanlar&#10;(0.0 - 1.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g2">
+          <mxGeometry x="20" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" value="Rationale&#10;(Gerekçe)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g2">
+          <mxGeometry x="210" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" value="Cited Evidence&#10;(Kanıt Alıntıları)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g2">
+          <mxGeometry x="400" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" value="Rewrite Guidance&#10;(Düzeltme Tavsiyesi)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g2">
+          <mxGeometry x="590" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" parent="1" edge="1" source="n6" target="g2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Comp Score -->
+        <mxCell id="n11" value="Composite Scoring&#10;Engine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="400" y="720" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" parent="1" edge="1" source="n6" target="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontColor=#ffffff;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="940" y="480" />
+                    <mxPoint x="940" y="690" />
+                    <mxPoint x="480" y="690" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+
+        <!-- Subgraph S3 -->
+        <mxCell id="g3" value="3. Puan Birleştirme Matematiği" style="swimlane;startSize=30;fillColor=#2f855a;fontColor=#ffffff;strokeColor=#38a169;" vertex="1" parent="1">
+          <mxGeometry x="130" y="820" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" value="Niyet Sadakati: %25&#10;DuckDB Basari: %20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g3">
+          <mxGeometry x="20" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" value="Semantik/AST: %15&#10;İş Mantığı: %15" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g3">
+          <mxGeometry x="250" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" value="Sonuç. Eş: %10&#10;Bağlılık: %10  -  Risk: %5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="g3">
+          <mxGeometry x="480" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" parent="1" edge="1" source="n11" target="g3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Final Score -->
+        <mxCell id="n15" value="Final Skoru Hesabı&#10;(0.00 - 1.00)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="380" y="980" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" parent="1" edge="1" source="n11" target="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="880" y="750" />
+                    <mxPoint x="880" y="960" />
+                    <mxPoint x="480" y="960" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+
+        <!-- Override Check -->
+        <mxCell id="n16" value="4. Override Red Kuralları" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fed7d7;strokeColor=#e53e3e;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1120" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" parent="1" edge="1" source="n15" target="n16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n17" value="🔴 REDDEDİLDİ&#10;Çöp Kod/Hata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7d7;strokeColor=#e53e3e;fontColor=#1a202c;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="1130" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="DuckDB Hata veya&#10;Intent &lt; 0.20" parent="1" edge="1" source="n16" target="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n18" value="Karar Sınırları&#10;(Thresholds)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#edf2f7;strokeColor=#cbd5e0;fontColor=#1a202c;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1280" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Kuralları Geçti" parent="1" edge="1" source="n16" target="n18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Final decisions -->
+        <mxCell id="n19" value="🟢 ONAY&#10;Üretime Hazır" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6f6d5;strokeColor=#38a169;fontColor=#1a202c;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="1460" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" value="🟡 YENİDEN YAZ&#10;Tavsiye İçerir" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontColor=#1a202c;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="290" y="1460" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" value="🟠 İNSAN İNCELEMESİ&#10;Şüpheli Durum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#feebc8;strokeColor=#dd6b20;fontColor=#1a202c;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="1460" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" value="🔴 REDDEDİLDİ&#10;Yetersiz Skor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7d7;strokeColor=#e53e3e;fontColor=#1a202c;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="710" y="1460" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e11" value="Skor &gt;= 0.85" parent="1" edge="1" source="n18" target="n19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="160" y="1320" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" value="0.65 - 0.84" parent="1" edge="1" source="n18" target="n20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="370" y="1400" />
+                    <mxPoint x="370" y="1400" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" value="0.40 - 0.64" parent="1" edge="1" source="n18" target="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="580" y="1400" />
+                    <mxPoint x="580" y="1400" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" value="Skor &lt; 0.40" parent="1" edge="1" source="n18" target="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+            <mxGeometry relative="1" as="geometry">
+                <Array as="points">
+                    <mxPoint x="790" y="1320" />
+                </Array>
+            </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
