@@ -7,3 +7,6 @@
 .github/
 .opencode/
 .windsurf/
+
+# Datasets
+*.csv
